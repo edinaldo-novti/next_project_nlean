@@ -4,10 +4,13 @@
 # Multi-stage build for Next.js 16 application
 # ==============================================================================
 
-# Stage 1: Dependencies
+# Stage 1: Dependencies (devDependencies required for build)
 FROM node:25-alpine AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
+
+# Force development so devDependencies (typescript, etc.) are installed at build
+ENV NODE_ENV=development
 
 # Copy package files
 COPY package.json yarn.lock ./
@@ -17,13 +20,14 @@ RUN yarn --check-files
 FROM node:25-alpine AS builder
 WORKDIR /app
 
+# Force development so build tools (webpack, etc.) work correctly
+ENV NODE_ENV=development
+
 # Copy dependencies from deps stage
 COPY --from=deps ./app/node_modules ./node_modules
 COPY . .
 
-
 # Build the application
-
 RUN yarn build
 
 # Stage 3: Runner
