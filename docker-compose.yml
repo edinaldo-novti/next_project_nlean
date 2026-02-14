@@ -1,19 +1,18 @@
+# Coolify: defina domínio (ex.: novti.net) e variáveis na UI do app.
+# Rede "coolify" deve existir no host (criada pelo Coolify).
+
 services:
   portal:
     build: .
-    container_name: portal
     restart: unless-stopped
-    env_file: .env
-    ports:
-      - 3000:3000
     expose:
       - 3000
     environment:
-      # Debug
-      NODE_ENV: ${NODE_ENV:-development}
-      NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
+      NODE_ENV: ${NODE_ENV:-production}
+      NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-https://novti.net}
     networks:
       - coolify
+
 networks:
   coolify:
     name: coolify
