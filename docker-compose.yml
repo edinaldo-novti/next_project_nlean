@@ -4,6 +4,8 @@ services:
     container_name: portal
     restart: unless-stopped
     env_file: .env
+    expose:
+      - 3000
     environment:
       # Debug
       NODE_ENV: ${NODE_ENV:-development}
