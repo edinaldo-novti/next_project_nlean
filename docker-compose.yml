@@ -1,0 +1,15 @@
+services:
+  portal:
+    build: .
+    container_name: portal
+    restart: unless-stopped
+    environment:
+      # Debug
+      NODE_ENV: ${NODE_ENV:-development}
+      NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
+    networks:
+      - coolify
+networks:
+  coolify:
+    name: coolify
+    external: true
