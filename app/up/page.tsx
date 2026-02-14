@@ -1,5 +1,5 @@
-export default function Home() {
+export default function Up() {
   return (
-    <div className="min-h-screen  min-w-screen bg-green-500"></div>
+    <div className="min-h-screen  min-w-screen bg-green-500"></div>s
   );
 }
