@@ -11,7 +11,9 @@ services:
       NODE_ENV: ${NODE_ENV:-production}
       NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-https://novti.net}
     networks:
-      - coolify
+      coolify:
+        aliases:
+          - portal
 
 networks:
   coolify:
