@@ -1,0 +1,23 @@
+# ==============================================================================
+# Docker Compose para deploy no Coolify (imagem pré-construída pelo GitHub Actions)
+# ==============================================================================
+# No Coolify: use este arquivo como "Docker Compose File" e defina a variável:
+#   GHCR_IMAGE = ghcr.io/SEU_OWNER/SEU_REPO:latest
+# Ex.: ghcr.io/novti/next_project_nlean:latest
+# ==============================================================================
+
+services:
+  portal:
+    image: ${GHCR_IMAGE}
+    container_name: portal
+    restart: unless-stopped
+    environment:
+      NODE_ENV: ${NODE_ENV:-production}
+      NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL}
+    networks:
+      - coolify
+
+networks:
+  coolify:
+    name: coolify
+    external: true
