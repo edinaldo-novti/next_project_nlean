@@ -1,0 +1,34 @@
+# Dependencies (installed in container)
+node_modules
+.pnp
+.pnp.js
+
+# Build output
+.next
+out
+dist
+build
+
+# Env files (avoid NODE_ENV/build vars affecting build; use Coolify build args instead)
+.env
+.env.*
+!.env.example
+
+# Git and IDE
+.git
+.gitignore
+.dockerignore
+*.md
+
+# Debug and test
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.coverage
+.nyc_output
+*.log
+
+# Misc
+Dockerfile*
+docker-compose*
+.docker

@@ -12,16 +12,16 @@ WORKDIR /app
 # Force development so devDependencies (typescript, etc.) are installed at build
 ENV NODE_ENV=development
 
-# Copy package files
+# Copy package files (install all deps including devDependencies for build)
 COPY package.json yarn.lock ./
-RUN yarn --check-files
+RUN yarn install --check-files --ignore-scripts
 
 # Stage 2: Builder
 FROM node:25-alpine AS builder
 WORKDIR /app
 
-# Force development so build tools (webpack, etc.) work correctly
-ENV NODE_ENV=development
+# Next.js build expects NODE_ENV=production (deps already installed from deps stage)
+ENV NODE_ENV=production
 
 # Copy dependencies from deps stage
 COPY --from=deps ./app/node_modules ./node_modules
