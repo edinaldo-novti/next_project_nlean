@@ -1,21 +1,27 @@
 # ==============================================================================
-# Traefik (root Coolify) - Dynamic config: encaminhar novti.net e *.novti.net
-# para o sub-server (Traefik do sub em 192.168.3.40)
-# ==============================================================================
-# Onde usar: no servidor root do Coolify, em "Dynamic Configurations" do Traefik.
-# Ajuste a porta se o Traefik do sub-server escutar em outra (ex.: 8080).
+# Traefik (root Coolify) - Dynamic config: novti.net e *.novti.net → sub-server
+# Com Cloudflare: tráfego pode chegar em HTTP (Flexible) ou HTTPS (Full/Strict).
 # ==============================================================================
 
 http:
   routers:
-    novti-router:
+    # HTTPS (Cloudflare Full ou Full Strict → root recebe em 443)
+    novti-router-https:
       rule: "Host(`novti.net`) || HostRegexp(`{subdomain:.+}.novti.net`)"
       entryPoints:
         - websecure
       service: novti-subserver
-      priority: 1
+      priority: 10
       tls:
         certResolver: letsencrypt
+
+    # HTTP (Cloudflare Flexible → root recebe em 80; sem TLS)
+    novti-router-http:
+      rule: "Host(`novti.net`) || HostRegexp(`{subdomain:.+}.novti.net`)"
+      entryPoints:
+        - web
+      service: novti-subserver
+      priority: 10
 
   services:
     novti-subserver:
