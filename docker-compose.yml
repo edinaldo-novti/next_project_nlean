@@ -1,5 +1,8 @@
 # Coolify: defina domínio (ex.: novti.net) e variáveis na UI do app.
 # Rede "coolify" deve existir no host (criada pelo Coolify).
+#
+# Labels: normalmente NÃO são necessárias — defina o domínio na UI (ex.: https://novti.net:3000).
+# Use as labels abaixo só se estiver em "Raw Compose Deployment" ou se o proxy não rotear pela UI.
 
 services:
   portal:
@@ -16,6 +19,12 @@ services:
       coolify:
         aliases:
           - portal
+    # Descomente se precisar que o Traefik do Coolify rote por labels (Raw Compose ou UI sem efeito):
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.portal.rule=Host(`novti.net`) || HostRegexp(`{subdomain:.+}.novti.net`)"
+      - "traefik.http.routers.portal.entrypoints=web"
+      - "traefik.http.services.portal.loadbalancer.server.port=3000"
 
 networks:
   coolify:
